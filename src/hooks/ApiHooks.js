@@ -1,3 +1,4 @@
+// TODO: add necessary imports
 import {useEffect, useState} from 'react';
 import {baseUrl} from '../utils/variables';
 
@@ -8,14 +9,14 @@ const fetchJson = async (url, options = {}) => {
     if (response.ok) {
       return json;
     } else {
-      throw new Error('response erhe');
+      const message = json.message;
+      throw new Error(message);
     }
   } catch (err) {
     throw new Error(err.message);
   }
 };
 
-// TODO: add necessary imports
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
   const getMedia = async () => {
@@ -40,7 +41,14 @@ const useMedia = () => {
 };
 
 const useUser = () => {
-  const getUser = () => {};
+  const getUser = async (token) => {
+    const fetchOptions = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await fetchJson(baseUrl + 'users/user', fetchOptions);
+  };
 
   const postUser = async (inputs) => {
     const fetchOptions = {
@@ -70,4 +78,4 @@ const useLogin = () => {
   return {postLogin};
 };
 
-export {useMedia, useUser, useLogin};
+export {useMedia, useLogin, useUser};
