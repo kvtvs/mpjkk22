@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import {mediaUrl} from '../utils/variables';
 import {Link} from 'react-router-dom';
+import {mediaUrl} from '../utils/variables';
 
 const MediaRow = ({file}) => {
   return (
@@ -23,7 +22,7 @@ const MediaRow = ({file}) => {
 };
 
 MediaRow.propTypes = {
-  file: PropTypes.object.isRequired,
+  file: PropTypes.object,
 };
 
 export default MediaRow;
