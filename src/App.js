@@ -4,6 +4,7 @@ import './App.css';
 import Nav from './components/Nav';
 import Home from './views/Home';
 import Login from './views/Login';
+import Logout from './views/Logout';
 import Profile from './views/Profile';
 import Single from './views/Single';
 
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/home" element={<Home />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/single" element={<Single />}></Route>
+        <Route path="/logout" element={<Logout />}></Route>
       </Routes>
     </BrowserRouter>
   );
