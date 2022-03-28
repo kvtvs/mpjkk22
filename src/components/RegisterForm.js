@@ -11,12 +11,12 @@ const RegisterForm = (props) => {
     full_name: '',
   };
 
-  const {postUser, getUserName} = useUser();
+  const {postUser, getUsername} = useUser();
 
   const doRegister = async () => {
     console.log('doRegister');
     try {
-      const checkUser = await getUserName(inputs.username);
+      const checkUser = await getUsername();
       if (checkUser) {
         const userData = await postUser(inputs);
         console.log(userData);
@@ -66,5 +66,3 @@ const RegisterForm = (props) => {
 };
 
 RegisterForm.propTypes = {};
-
-export default RegisterForm;
