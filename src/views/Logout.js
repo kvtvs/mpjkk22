@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import {Navigate} from 'react-router-dom';
-import {MediaContext} from '../contexts/MediaContext';
+import {MediaContext} from '../context/MediaContext';
 
 const Logout = () => {
   const [user, setUser] = useContext(MediaContext);

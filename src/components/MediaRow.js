@@ -1,23 +1,23 @@
+import {ImageListItem, ImageListItemBar} from '@mui/material';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {mediaUrl} from '../utils/variables';
 
 const MediaRow = ({file}) => {
   return (
-    <tr>
-      <td>
-        <img src={mediaUrl + file.thumbnails.w160} alt={file.title} />
-      </td>
-      <td>
-        <h4>{file.title}</h4>
-        <p>{file.description}</p>
-      </td>
-      <td>
-        <Link to={'/single'} state={{file}}>
-          View
-        </Link>
-      </td>
-    </tr>
+    <ImageListItem
+      key={file.file_id}
+      component={Link}
+      to={'/single'}
+      state={{file}}
+    >
+      <img
+        src={mediaUrl + file.thumbnails.w320}
+        alt={file.title}
+        loading="lazy"
+      />
+      <ImageListItemBar title={file.title} subtitle={file.description} />
+    </ImageListItem>
   );
 };
 
