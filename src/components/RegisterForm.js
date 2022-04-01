@@ -6,6 +6,7 @@ import {Grid} from '@mui/material';
 import {Typography} from '@mui/material';
 import {TextField} from '@mui/material';
 import {Button} from '@mui/material';
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const RegisterForm = (props) => {
   const alkuarvot = {
@@ -13,6 +14,20 @@ const RegisterForm = (props) => {
     password: '',
     email: '',
     full_name: '',
+  };
+
+  const validators = {
+    username: ['required', 'minStringLenth: 3'],
+    password: ['required', 'minStringLenth: 5'],
+    email: ['required', 'isEmail'],
+    full_name: ['minStringLenth: 2'],
+  };
+
+  const errorMessages = {
+    username: ['Required field', 'min 3 characters'],
+    password: ['Required field', 'min 5 characters'],
+    email: ['Required field', 'Insert working email'],
+    full_name: ['min 2 characters'],
   };
 
   const {postUser, getUsername} = useUser();
@@ -53,8 +68,8 @@ const RegisterForm = (props) => {
       </Grid>
 
       <Grid item xs={12}>
-        <form onSubmit={handleSubmit}>
-          <TextField
+        <ValidatorForm onSubmit={handleSubmit}>
+          <TextValidator
             fullWidth
             placeholder="username"
             label="username"
@@ -62,6 +77,8 @@ const RegisterForm = (props) => {
             onChange={handleInputChange}
             onBlur={doCheck}
             value={inputs.username}
+            validators={validators.username}
+            errorMessages={errorMessages.username}
           />
           <TextField
             fullWidth
@@ -71,6 +88,8 @@ const RegisterForm = (props) => {
             type="password"
             onChange={handleInputChange}
             value={inputs.password}
+            validators={validators.password}
+            errorMessages={errorMessages.password}
           />
           <TextField
             fullWidth
@@ -80,6 +99,8 @@ const RegisterForm = (props) => {
             type="email"
             onChange={handleInputChange}
             value={inputs.email}
+            validators={validators.email}
+            errorMessages={errorMessages.email}
           />
           <TextField
             fullWidth
@@ -88,11 +109,13 @@ const RegisterForm = (props) => {
             name="full_name"
             onChange={handleInputChange}
             value={inputs.full_name}
+            validators={validators.full_name}
+            errorMessages={errorMessages.full_name}
           />
           <Button fullWidth color="primary" type="submit" variant="contained">
             Register
           </Button>
-        </form>
+        </ValidatorForm>
       </Grid>
     </Grid>
   );
