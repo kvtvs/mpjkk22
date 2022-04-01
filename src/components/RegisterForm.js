@@ -51,11 +51,11 @@ const RegisterForm = (props) => {
   );
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('isAvailable', async () => {
+    ValidatorForm.addValidationRule('isAvailable', async (value) => {
       try {
-        return await getUsername(inputs.username);
+        return await getUsername(value);
       } catch (err) {
-        return false;
+        return true;
       }
     });
   }, []);
