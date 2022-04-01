@@ -4,9 +4,9 @@ import {useUser} from '../hooks/ApiHooks';
 import useForm from '../hooks/FormHooks';
 import {Grid} from '@mui/material';
 import {Typography} from '@mui/material';
-import {TextField} from '@mui/material';
 import {Button} from '@mui/material';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {useEffect} from 'react';
 
 const RegisterForm = (props) => {
   const alkuarvot = {
@@ -17,28 +17,20 @@ const RegisterForm = (props) => {
   };
 
   const validators = {
-    username: ['required', 'minStringLenth: 3'],
+    username: ['required', 'minStringLenth: 3', 'isAvailable'],
     password: ['required', 'minStringLenth: 5'],
     email: ['required', 'isEmail'],
     full_name: ['minStringLenth: 2'],
   };
 
   const errorMessages = {
-    username: ['Required field', 'min 3 characters'],
+    username: ['Required field', 'min 3 characters', 'username not available'],
     password: ['Required field', 'min 5 characters'],
     email: ['Required field', 'Insert working email'],
     full_name: ['min 2 characters'],
   };
 
   const {postUser, getUsername} = useUser();
-
-  const doCheck = async () => {
-    try {
-      await getUsername(inputs.username);
-    } catch (err) {
-      alert(err.message);
-    }
-  };
 
   const doRegister = async () => {
     console.log('doRegister');
@@ -57,7 +49,16 @@ const RegisterForm = (props) => {
     doRegister,
     alkuarvot
   );
-  console.log(inputs);
+
+  useEffect(() => {
+    ValidatorForm.addValidationRule('isAvailable', async () => {
+      try {
+        return await getUsername(inputs.username);
+      } catch (err) {
+        return false;
+      }
+    });
+  }, []);
 
   return (
     <Grid container>
@@ -75,12 +76,11 @@ const RegisterForm = (props) => {
             label="username"
             name="username"
             onChange={handleInputChange}
-            onBlur={doCheck}
             value={inputs.username}
             validators={validators.username}
             errorMessages={errorMessages.username}
           />
-          <TextField
+          <TextValidator
             fullWidth
             label="password"
             placeholder="password"
@@ -91,7 +91,7 @@ const RegisterForm = (props) => {
             validators={validators.password}
             errorMessages={errorMessages.password}
           />
-          <TextField
+          <TextValidator
             fullWidth
             label="email"
             placeholder="email"
@@ -102,7 +102,7 @@ const RegisterForm = (props) => {
             validators={validators.email}
             errorMessages={errorMessages.email}
           />
-          <TextField
+          <TextValidator
             fullWidth
             label="full name"
             placeholder="full name"
