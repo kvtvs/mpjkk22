@@ -12,22 +12,27 @@ const RegisterForm = (props) => {
   const alkuarvot = {
     username: '',
     password: '',
+    confirm: '',
     email: '',
     full_name: '',
   };
 
   const validators = {
-    username: ['required', 'minStringLenth: 3', 'isAvailable'],
-    password: ['required', 'minStringLenth: 5'],
+    username: ['required', 'minStringLength: 3', 'isAvailable'],
+    password: ['required', 'minStringLength: 5'],
+    confirm: ['required', 'isPasswordMatch'],
     email: ['required', 'isEmail'],
-    full_name: ['minStringLenth: 2'],
   };
 
   const errorMessages = {
-    username: ['Required field', 'min 3 characters', 'username not available'],
-    password: ['Required field', 'min 5 characters'],
-    email: ['Required field', 'Insert working email'],
-    full_name: ['min 2 characters'],
+    username: [
+      'required field',
+      'minimum 3 characters',
+      'usename not available',
+    ],
+    password: ['required field', 'minimum 5 characters'],
+    confirm: ['required field', 'passwords do not match'],
+    email: ['required field', 'not email address'],
   };
 
   const {postUser, getUsername} = useUser();
@@ -37,6 +42,7 @@ const RegisterForm = (props) => {
     try {
       const checkUser = getUsername(inputs.username);
       if (checkUser) {
+        delete inputs.confirm;
         const userData = await postUser(inputs);
         console.log(userData);
       }
@@ -58,7 +64,22 @@ const RegisterForm = (props) => {
         return true;
       }
     });
-  }, []);
+
+    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+      /*
+      if (value !== inputs.password) {
+        return false;
+      }
+      return true;
+      */
+      console.log('validator', value, inputs.password);
+      return value === inputs.password ? true : false;
+    });
+
+    return () => {
+      ValidatorForm.removeValidationRule('isAvailable');
+    };
+  }, [inputs]);
 
   return (
     <Grid container>
@@ -93,6 +114,17 @@ const RegisterForm = (props) => {
           />
           <TextValidator
             fullWidth
+            label="re-type password"
+            placeholder="re-type password"
+            name="confirm"
+            type="confirm"
+            onChange={handleInputChange}
+            value={inputs.confirm}
+            validators={validators.confirm}
+            errorMessages={errorMessages.confirm}
+          />
+          <TextValidator
+            fullWidth
             label="email"
             placeholder="email"
             name="email"
@@ -109,8 +141,6 @@ const RegisterForm = (props) => {
             name="full_name"
             onChange={handleInputChange}
             value={inputs.full_name}
-            validators={validators.full_name}
-            errorMessages={errorMessages.full_name}
           />
           <Button fullWidth color="primary" type="submit" variant="contained">
             Register
