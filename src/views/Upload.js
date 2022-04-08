@@ -19,9 +19,14 @@ const Upload = () => {
     title: '',
     description: '',
   };
+
   const filterarvot = {
     brightness: 100,
+    contrast: 100,
+    saturation: 100,
+    sepia: 0,
   };
+
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const navigate = useNavigate();
@@ -75,7 +80,7 @@ const Upload = () => {
       <Grid container>
         <Grid item xs={12}>
           <Typography component="h1" variant="h2" gutterBottom>
-            Login
+            Upload
           </Typography>
         </Grid>
 
@@ -94,7 +99,7 @@ const Upload = () => {
               name="description"
               onChange={handleInputChange}
               value={inputs.description}
-            ></TextValidator>
+            />
 
             <TextValidator
               fullWidth
@@ -113,19 +118,30 @@ const Upload = () => {
                 type="submit"
                 variant="contained"
               >
-                Login
+                Upload
               </Button>
             )}
           </ValidatorForm>
         </Grid>
       </Grid>
-
-      <Grid>
-        <Grid item xs="6">
-          <img src={preview} alt="preview" />
+      <Grid container>
+        <Grid item xs={12}>
+          <img
+            style={{
+              width: '100%',
+              filter: `
+              brightness(${filterInputs.brightness}%)
+              contrast(${filterInputs.contrast}%)
+              saturate(${filterInputs.saturation}%)
+              sepia(${filterInputs.sepia}%)
+              `,
+            }}
+            src={preview}
+            alt="preview"
+          />
         </Grid>
         <Grid container>
-          <Grid item xs="12">
+          <Grid item xs={12}>
             <Slider
               name="brightness"
               min={0}
@@ -133,6 +149,40 @@ const Upload = () => {
               step={1}
               valueLabelDisplay="on"
               onChange={handleSliderChange}
+              value={filterInputs.brightness}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Slider
+              name="contrast"
+              min={0}
+              max={200}
+              step={1}
+              valueLabelDisplay="on"
+              onChange={handleSliderChange}
+              value={filterInputs.contrast}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Slider
+              name="saturation"
+              min={0}
+              max={200}
+              step={1}
+              valueLabelDisplay="on"
+              onChange={handleSliderChange}
+              value={filterInputs.saturation}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Slider
+              name="sepia"
+              min={0}
+              max={100}
+              step={1}
+              valueLabelDisplay="on"
+              onChange={handleSliderChange}
+              value={filterInputs.sepia}
             />
           </Grid>
         </Grid>
