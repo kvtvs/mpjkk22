@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
-import {MediaContext} from '../contexts/MediaContext';
+import {MediaContext} from '../context/MediaContext';
 import {useTag} from '../hooks/ApiHooks';
 import {mediaUrl} from '../utils/variables';
 import {
