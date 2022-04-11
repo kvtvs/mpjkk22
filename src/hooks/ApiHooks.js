@@ -17,7 +17,7 @@ const fetchJson = async (url, options = {}) => {
   }
 };
 
-const useMedia = () => {
+const useMedia = (allFiles, userId) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const getMedia = async () => {
@@ -29,6 +29,7 @@ const useMedia = () => {
           return await fetchJson(`${baseUrl}media/${file.file_id}`);
         })
       );
+
       setMediaArray(allFiles);
     } catch (err) {
       alert(err.message);
