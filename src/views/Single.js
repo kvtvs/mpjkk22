@@ -16,9 +16,7 @@ import {useEffect, useState} from 'react';
 import {useTag} from '../hooks/ApiHooks';
 
 const Single = () => {
-  const [avatar, setAvatar] = useState({
-    filename: 'https://placekitten.com/320',
-  });
+  const [avatar, setAvatar] = useState({});
   const location = useLocation();
   console.log(location);
   const file = location.state.file;
@@ -41,6 +39,7 @@ const Single = () => {
         const ava = avatars.pop();
         ava.filename = mediaUrl + ava.filename;
         setAvatar(ava);
+        // hae kuvan pomistajan tiedot
       }
     } catch (err) {
       // console.log(err);
